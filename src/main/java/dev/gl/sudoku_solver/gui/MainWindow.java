@@ -1,6 +1,13 @@
 package dev.gl.sudoku_solver.gui;
 
+import dev.gl.sudoku_solver.controllers.ClearButtonActionListener;
 import dev.gl.sudoku_solver.controllers.ExitButtonActionListener;
+import dev.gl.sudoku_solver.controllers.GoButtonActionListener;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Insets;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 /**
  *
@@ -10,7 +17,7 @@ public class MainWindow extends javax.swing.JFrame {
 
     public MainWindow() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        setupFrame();
         initListeners();
     }
 
@@ -21,7 +28,7 @@ public class MainWindow extends javax.swing.JFrame {
         upperPanel = new javax.swing.JPanel();
         bottomPanel = new javax.swing.JPanel();
         leftButtonsPanel = new javax.swing.JPanel();
-        runButton = new javax.swing.JButton();
+        goButton = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
         rightButtonsPanel = new javax.swing.JPanel();
         exitButton = new javax.swing.JButton();
@@ -46,10 +53,10 @@ public class MainWindow extends javax.swing.JFrame {
 
         leftButtonsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        runButton.setText("jButton1");
-        leftButtonsPanel.add(runButton);
+        goButton.setText("Go!");
+        leftButtonsPanel.add(goButton);
 
-        clearButton.setText("jButton2");
+        clearButton.setText("Clear");
         leftButtonsPanel.add(clearButton);
 
         bottomPanel.add(leftButtonsPanel);
@@ -71,13 +78,24 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton clearButton;
     private javax.swing.JButton exitButton;
+    private javax.swing.JButton goButton;
     private javax.swing.JPanel leftButtonsPanel;
     private javax.swing.JPanel rightButtonsPanel;
-    private javax.swing.JButton runButton;
     private javax.swing.JPanel upperPanel;
     // End of variables declaration//GEN-END:variables
 
     private void initListeners() {
         exitButton.addActionListener(new ExitButtonActionListener(this));
+        goButton.addActionListener(new GoButtonActionListener(this));
+        clearButton.addActionListener(new ClearButtonActionListener(this));
+    }
+
+    private void setupFrame() {
+        // set window in the middle of the screen
+        this.setLocationRelativeTo(null);
+
+        // set window icon
+        ImageIcon icon = new ImageIcon(this.getClass().getClassLoader().getResource("images/icons8-sudoku-40.png"));
+        this.setIconImage(icon.getImage());
     }
 }
