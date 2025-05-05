@@ -16,7 +16,8 @@ public class CellFilter extends DocumentFilter {
         Document doc = fb.getDocument();
         String oldText = doc.getText(0, doc.getLength());
         
-        if (!text.matches("\\d+")) {
+        // allows only digits (except zero) and empty string (for cleaning operation)
+        if (!text.matches("[1-9]") && !text.equals("")) { // "\\d+"
             return;
         }
         

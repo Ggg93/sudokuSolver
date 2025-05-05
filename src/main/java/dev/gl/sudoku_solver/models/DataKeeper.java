@@ -187,4 +187,16 @@ public class DataKeeper {
         }
         System.out.println(sb.toString());
     }
+    
+    public void clearMatrix() {
+        for (int r = 0; r < matrix.length; r++) {
+            for (int c = 0; c < matrix[0].length; c++) {
+                matrix[r][c] = '.';
+            }
+        }
+        
+        for (SudokuBox box : grid.values()) {
+            box.clearAllValues();
+        }
+    }
 }

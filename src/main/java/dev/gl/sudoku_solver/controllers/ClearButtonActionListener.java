@@ -18,6 +18,7 @@ public class ClearButtonActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        parent.getDataKeeper().clearMatrix();
     }
 
 }

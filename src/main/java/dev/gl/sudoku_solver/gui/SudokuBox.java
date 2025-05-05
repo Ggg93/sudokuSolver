@@ -209,4 +209,18 @@ public class SudokuBox extends javax.swing.JPanel {
         return position;
     }
     
+    public void clearAllValues() {
+        r1c1.setText("");
+        r1c2.setText("");
+        r1c3.setText("");
+        
+        r2c1.setText("");
+        r2c2.setText("");
+        r2c3.setText("");
+        
+        r3c1.setText("");
+        r3c2.setText("");
+        r3c3.setText("");
+    }
+    
 }
