@@ -16,14 +16,15 @@ public class CellFilter extends DocumentFilter {
         Document doc = fb.getDocument();
         String oldText = doc.getText(0, doc.getLength());
         
-        if (oldText.length() >= 1) {
-            return;
-        }
-        
         if (!text.matches("\\d+")) {
             return;
         }
+        
+        if (oldText.length() == 1) {
+            offset = 0;
+            length = 1;
+        }
         super.replace(fb, offset, length, text, attrs); 
     }
-    
+
 }
