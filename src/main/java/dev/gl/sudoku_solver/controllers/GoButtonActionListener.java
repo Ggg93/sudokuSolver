@@ -18,6 +18,8 @@ public class GoButtonActionListener implements ActionListener {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        parent.getDataKeeper().updateMatrix();
+        parent.getDataKeeper().printMatrix();
     }
     
 }
