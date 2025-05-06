@@ -390,4 +390,48 @@ public class SudokuBox extends javax.swing.JPanel {
         return false;
     }
 
+    public void setValue(int row, int col, char c) {
+        switch (row) {
+            case 1:
+                switch (col) {
+                    case 1:
+                        r1c1.setText(String.valueOf(c));
+                        break;
+                    case 2:
+                        r1c2.setText(String.valueOf(c));
+                        break;
+                    case 3:
+                        r1c3.setText(String.valueOf(c));
+                        break;
+                }
+                break;
+            case 2:
+                switch (col) {
+                    case 1:
+                        r2c1.setText(String.valueOf(c));
+                        break;
+                    case 2:
+                        r2c2.setText(String.valueOf(c));
+                        break;
+                    case 3:
+                        r2c3.setText(String.valueOf(c));
+                        break;
+                }
+                break;
+            case 3:
+                switch (col) {
+                    case 1:
+                        r3c1.setText(String.valueOf(c));
+                        break;
+                    case 2:
+                        r3c2.setText(String.valueOf(c));
+                        break;
+                    case 3:
+                        r3c3.setText(String.valueOf(c));
+                        break;
+                }
+                break;
+        }
+    }
+
 }

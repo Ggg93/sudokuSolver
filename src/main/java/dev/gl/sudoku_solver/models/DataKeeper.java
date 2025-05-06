@@ -209,6 +209,19 @@ public class DataKeeper {
         }
     }
 
+    public void showSolvedSudoku() {
+        for (int r = 0; r < matrix.length; r++) {
+            for (int c = 0; c < matrix[0].length; c++) {
+                Set<SudokuBox> adjustedBoxes = getAdjustedBoxes(r, c);
+                for (SudokuBox box : adjustedBoxes) {
+                    int boxRowIdx = r < 3 ? (r + 1) : r % 3 + 1;
+                    int boxColumnIdx = c < 3 ? (c + 1) : c % 3 + 1;
+                    box.setValue(boxRowIdx, boxColumnIdx, matrix[r][c]);
+                }
+            }
+        }
+    }
+
     public char[][] getMatrix() {
         return matrix;
     }
