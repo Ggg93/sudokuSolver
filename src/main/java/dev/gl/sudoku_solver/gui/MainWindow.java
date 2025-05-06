@@ -39,6 +39,7 @@ public class MainWindow extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sudoku Solver");
+        setMinimumSize(new java.awt.Dimension(450, 450));
 
         javax.swing.GroupLayout upperPanelLayout = new javax.swing.GroupLayout(upperPanel);
         upperPanel.setLayout(upperPanelLayout);
@@ -104,7 +105,10 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void initMainGrid() {
-        upperPanel.setLayout(new GridLayout(3, 3));
+        GridLayout layout = new GridLayout(3, 3);
+        layout.setHgap(5);
+        layout.setVgap(5);
+        upperPanel.setLayout(layout);
         upperPanel.add(dataKeeper.getBox(BoxPosition.NORTHWEST));
         upperPanel.add(dataKeeper.getBox(BoxPosition.NORTH));
         upperPanel.add(dataKeeper.getBox(BoxPosition.NORTHEAST));
