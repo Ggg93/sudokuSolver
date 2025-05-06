@@ -33,7 +33,8 @@ public class GoButtonActionListener implements ActionListener {
         char[][] matrix = dataKeeper.getMatrix();
 
         // first check: is there are minimum required clues in matrix
-        boolean isCluesNumberEnough = Verifier.checkRequiredMinimumClues(matrix);
+        int initialCluesNumber = Verifier.getInitialCluesNumber(matrix);
+        boolean isCluesNumberEnough = Verifier.checkRequiredMinimumClues(initialCluesNumber);
         if (!isCluesNumberEnough) {
             JOptionPane.showMessageDialog(parent,
                     "There is not enough clues. " + System.lineSeparator()
@@ -60,10 +61,12 @@ public class GoButtonActionListener implements ActionListener {
 
         // if everything is fine, send matrix to dataKeeper to solver
         parent.updateState(MainWindowState.NEED_RESTART);
+        Long startTimeStamp = System.nanoTime();
         boolean isSolved = Solver.solve(dataKeeper);
+        Long finalTimeStamp = System.nanoTime();
         dataKeeper.printMatrix();
         System.out.println("solved: " + isSolved);
-        
+
         if (!isSolved) {
             JOptionPane.showMessageDialog(parent,
                     "Sorry!"
@@ -73,9 +76,19 @@ public class GoButtonActionListener implements ActionListener {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         dataKeeper.showSolvedSudoku();
         dataKeeper.changeColorForAllCells(SudokuBox.SUCCESS_GREEN_BACKGROUND);
+
+        JOptionPane.showMessageDialog(parent,
+                "Successfully solved!"
+                + System.lineSeparator()
+                + "Initial clues number: " + initialCluesNumber
+                + System.lineSeparator()
+                + "Solving time [ms]: " + ((finalTimeStamp - startTimeStamp) / 1000000),
+                "Sudoku Solver",
+                JOptionPane.INFORMATION_MESSAGE);
+
     }
 
 }

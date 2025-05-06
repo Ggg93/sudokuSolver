@@ -15,16 +15,7 @@ public class Verifier {
      * @param matrix
      * @return 
      */
-    public static boolean checkRequiredMinimumClues(char[][] matrix) {
-        int cluesNumber = 0;
-        for (int r = 0; r < matrix.length; r++) {
-            for (int c = 0; c < matrix[0].length; c++) {
-                if (Character.isDigit(matrix[r][c])) {
-                    cluesNumber++;
-                }
-            }
-        }
-
+    public static boolean checkRequiredMinimumClues(int cluesNumber) {
         return cluesNumber >= CLUES_REQUIRED_MINIMUM;
     }
 
@@ -104,5 +95,18 @@ public class Verifier {
         }
 
         return null; // if everything is OK
+    }
+    
+    public static int getInitialCluesNumber(char[][] matrix) {
+        int cluesNumber = 0;
+        for (int r = 0; r < matrix.length; r++) {
+            for (int c = 0; c < matrix[0].length; c++) {
+                if (Character.isDigit(matrix[r][c])) {
+                    cluesNumber++;
+                }
+            }
+        }
+
+        return cluesNumber;
     }
 }
