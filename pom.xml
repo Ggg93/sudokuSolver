@@ -11,4 +11,7 @@
         <maven.compiler.release>21</maven.compiler.release>
         <exec.mainClass>dev.gl.sudoku_solver.EntryPoint</exec.mainClass>
     </properties>
+    <build>
+        <finalName>SudokuSolver</finalName>
+    </build>
 </project>
