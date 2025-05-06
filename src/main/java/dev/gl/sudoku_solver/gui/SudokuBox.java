@@ -202,7 +202,7 @@ public class SudokuBox extends javax.swing.JPanel {
                 break;
         }
 
-        return text.isEmpty() ? '.' : text.charAt(0);
+        return text.isEmpty() ? 0 : text.charAt(0);
     }
 
     public BoxPosition getPosition() {

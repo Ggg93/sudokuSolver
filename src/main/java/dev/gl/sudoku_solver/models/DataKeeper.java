@@ -165,8 +165,10 @@ public class DataKeeper {
                 if (c == 0) {
                     sb.append("|");
                 }
+                
+                char cellValue = matrix[r][c];
 
-                sb.append(matrix[r][c]);
+                sb.append((cellValue == 0) ? "." : cellValue);
 
                 if (c == 2 || c == 5 || c == 8) {
                     sb.append("|");
