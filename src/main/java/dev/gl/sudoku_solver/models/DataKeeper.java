@@ -199,4 +199,9 @@ public class DataKeeper {
             box.clearAllValues();
         }
     }
+
+    public char[][] getMatrix() {
+        return matrix;
+    }
+    
 }

@@ -120,10 +120,4 @@ public class MainWindow extends javax.swing.JFrame {
         return dataKeeper;
     }
 
-    public void updateTextFields() {
-        for (BoxPosition pos : BoxPosition.values()) {
-            
-        }
-    }
-    
 }
