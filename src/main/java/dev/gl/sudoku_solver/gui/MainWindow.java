@@ -1,12 +1,19 @@
 package dev.gl.sudoku_solver.gui;
 
+import dev.gl.sudoku_solver.controllers.ArtoInkalaAction;
 import dev.gl.sudoku_solver.controllers.ClearButtonActionListener;
 import dev.gl.sudoku_solver.controllers.ExitButtonActionListener;
 import dev.gl.sudoku_solver.controllers.GoButtonActionListener;
 import dev.gl.sudoku_solver.models.BoxPosition;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import java.awt.GridLayout;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
+import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.KeyStroke;
 
 /**
  *
@@ -25,6 +32,7 @@ public class MainWindow extends javax.swing.JFrame {
         initMainGrid();
         setupFrame();
         initListeners();
+        createKeyBindings();
     }
 
     @SuppressWarnings("unchecked")
@@ -142,6 +150,14 @@ public class MainWindow extends javax.swing.JFrame {
             dataKeeper.changeBoxesState(true);
             goButton.setEnabled(true);
         }
+    }
+
+    private void createKeyBindings() {
+        InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        ActionMap actionMap = this.getRootPane().getActionMap();
+        
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK), "ArtoInkala");
+        actionMap.put("ArtoInkala", new ArtoInkalaAction(this));
     }
     
 }

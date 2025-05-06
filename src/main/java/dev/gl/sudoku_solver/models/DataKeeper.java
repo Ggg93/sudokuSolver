@@ -291,5 +291,37 @@ public class DataKeeper {
             box.changeTextFieldsState(shouldBeEnabled);
         }
     }
+    
+    public void setArtoInkalaSudoku() {
+        grid.get(BoxPosition.NORTHWEST).setValue(1, 1, '8');
+        grid.get(BoxPosition.NORTHWEST).setValue(2, 3, '3');
+        grid.get(BoxPosition.NORTHWEST).setValue(3, 2, '7');
+        
+        grid.get(BoxPosition.NORTH).setValue(2, 1, '6');
+        grid.get(BoxPosition.NORTH).setValue(3, 2, '9');
+        
+        grid.get(BoxPosition.NORTHEAST).setValue(3, 1, '2');
+        
+        grid.get(BoxPosition.WEST).setValue(1, 2, '5');
+        
+        grid.get(BoxPosition.MIDDLE).setValue(3, 1, '1');
+        grid.get(BoxPosition.MIDDLE).setValue(2, 2, '4');
+        grid.get(BoxPosition.MIDDLE).setValue(2, 3, '5');
+        grid.get(BoxPosition.MIDDLE).setValue(1, 3, '7');
+        
+        grid.get(BoxPosition.EAST).setValue(2, 1, '7');
+        grid.get(BoxPosition.EAST).setValue(3, 2, '3');
+        
+        grid.get(BoxPosition.SOUTHWEST).setValue(3, 2, '9');
+        grid.get(BoxPosition.SOUTHWEST).setValue(2, 3, '8');
+        grid.get(BoxPosition.SOUTHWEST).setValue(1, 3, '1');
+        
+        grid.get(BoxPosition.SOUTH).setValue(2, 1, '5');
+        
+        grid.get(BoxPosition.SOUTHEAST).setValue(3, 1, '4');
+        grid.get(BoxPosition.SOUTHEAST).setValue(2, 2, '1');
+        grid.get(BoxPosition.SOUTHEAST).setValue(1, 2, '6');
+        grid.get(BoxPosition.SOUTHEAST).setValue(1, 3, '8');
+    }
 
 }
