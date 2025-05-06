@@ -17,7 +17,7 @@ public class MainWindow extends javax.swing.JFrame {
     private DataKeeper dataKeeper;
 
     public MainWindow() {
-        dataKeeper = new DataKeeper();
+        dataKeeper = new DataKeeper(this);
         
         initComponents();
         initMainGrid();

@@ -1,8 +1,12 @@
 package dev.gl.sudoku_solver.models;
 
+import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.gui.SudokuBox;
+import java.awt.Color;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -10,13 +14,15 @@ import java.util.Map;
  */
 public class DataKeeper {
 
+    private MainWindow parent;
     private char[][] matrix = new char[9][9];
     private Map<BoxPosition, SudokuBox> grid = new HashMap<>();
 
-    public DataKeeper() {
+    public DataKeeper(MainWindow parent) {
+        this.parent = parent;
 
         for (BoxPosition position : BoxPosition.values()) {
-            grid.put(position, new SudokuBox(position));
+            grid.put(position, new SudokuBox(parent, position));
         }
     }
 
@@ -160,12 +166,12 @@ public class DataKeeper {
                 sb.append(" ___ ___ ___ ");
                 sb.append(System.lineSeparator());
             }
-            
+
             for (int c = 0; c < matrix[0].length; c++) {
                 if (c == 0) {
                     sb.append("|");
                 }
-                
+
                 char cellValue = matrix[r][c];
 
                 sb.append((cellValue == 0) ? "." : cellValue);
@@ -189,21 +195,82 @@ public class DataKeeper {
         }
         System.out.println(sb.toString());
     }
-    
+
     public void clearMatrix() {
         for (int r = 0; r < matrix.length; r++) {
             for (int c = 0; c < matrix[0].length; c++) {
-                matrix[r][c] = '.';
+                matrix[r][c] = 0; // may be it should be 0 (null)?
             }
         }
-        
+
         for (SudokuBox box : grid.values()) {
             box.clearAllValues();
+            box.setCommonBackgroundColorForAllCells(SudokuBox.DEFAULT_CELL_BACKGROUND);
         }
     }
 
     public char[][] getMatrix() {
         return matrix;
     }
-    
+
+    public void changeColorForAllCells(Color color) {
+        for (SudokuBox box : grid.values()) {
+            box.setCommonBackgroundColorForAllCells(color);
+        }
+    }
+
+    public void changeColorOnErrorArea(WrongCondition wrongCondition) {
+        Integer row = null;
+        Integer column = null;
+
+        if (wrongCondition.getType() == WrongLocationType.ROW) {
+            row = wrongCondition.getRow();
+        }
+
+        if (wrongCondition.getType() == WrongLocationType.COLUMN) {
+            column = wrongCondition.getColumn();
+        }
+
+        if (wrongCondition.getType() == WrongLocationType.BOX) {
+            row = wrongCondition.getRow();
+            column = wrongCondition.getColumn();
+        }
+
+        Set<SudokuBox> adjustedBoxes = getAdjustedBoxes(row, column);
+        for (SudokuBox box : adjustedBoxes) {
+            switch (wrongCondition.getType()) {
+                case ROW:
+                    int boxRowIdx = row < 3 ? (row + 1) : row % 3 + 1;
+                    for (int c = 1; c <= 3; c++) {
+                        box.changeCellColor(boxRowIdx, c, SudokuBox.ERROR_RED_BACKGROUND);
+                    }
+                    break;
+                case COLUMN:
+                    int boxColumnIdx = column < 3 ? (column + 1) : column % 3 + 1;
+                    for (int r = 1; r <= 3; r++) {
+                        box.changeCellColor(r, boxColumnIdx, SudokuBox.ERROR_RED_BACKGROUND);
+                    }
+                    break;
+                case BOX:
+                    for (int r = 1; r <= 3; r++) {
+                        for (int c = 1; c <= 3; c++) {
+                            box.changeCellColor(r, c, SudokuBox.ERROR_RED_BACKGROUND);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+
+    private Set<SudokuBox> getAdjustedBoxes(Integer row, Integer column) {
+        Set<SudokuBox> boxes = new HashSet<>();
+
+        for (SudokuBox box : grid.values()) {
+            if (box.containsCell(row, column)) {
+                boxes.add(box);
+            }
+        }
+        return boxes;
+    }
+
 }
