@@ -24,9 +24,19 @@ public class CellKeyListener extends KeyAdapter {
      */
     @Override
     public void keyPressed(KeyEvent e) {
+        if (cell.isEditable() && cell.getBackground().equals(SudokuBox.DEFAULT_CELL_BACKGROUND)) {
+            cell.setBackground(SudokuBox.GREY_KEY_PRESSED_BACKGROUND);
+        }
+        
         if (cell.getBackground().equals(SudokuBox.ERROR_RED_BACKGROUND)) {
             parent.getDataKeeper().changeColorForAllCells(SudokuBox.DEFAULT_CELL_BACKGROUND);
         }
     }
-    
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        if (cell.isEditable() && cell.getBackground().equals(SudokuBox.GREY_KEY_PRESSED_BACKGROUND)) {
+            cell.setBackground(SudokuBox.DEFAULT_CELL_BACKGROUND);
+        }
+    }
 }

@@ -16,6 +16,7 @@ public class SudokuBox extends javax.swing.JPanel {
     public static final Color DEFAULT_CELL_BACKGROUND = new Color(255, 255, 255);
     public static final Color SUCCESS_GREEN_BACKGROUND = new Color(152, 251, 152);
     public static final Color ERROR_RED_BACKGROUND = Color.RED;
+    public static final Color GREY_KEY_PRESSED_BACKGROUND = new Color(211, 211, 211);
     private MainWindow parent;
     private BoxPosition position;
 
