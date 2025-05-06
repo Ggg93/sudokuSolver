@@ -1,7 +1,6 @@
 package dev.gl.sudoku_solver.controllers;
 
 import dev.gl.sudoku_solver.gui.MainWindow;
-import dev.gl.sudoku_solver.models.BoxPosition;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import dev.gl.sudoku_solver.models.Verifier;
 import dev.gl.sudoku_solver.models.WrongCondition;
@@ -52,7 +51,6 @@ public class GoButtonActionListener implements ActionListener {
                     "Sudoku Verifier",
                     JOptionPane.WARNING_MESSAGE);
 
-            // TODO: NEED TO HIGHLIGHT CONFLICTING CELL IN RED!
             dataKeeper.changeColorOnErrorArea(wrongCondition);
             return;
         }
