@@ -285,5 +285,11 @@ public class DataKeeper {
         }
         return boxes;
     }
+    
+    public void changeBoxesState(boolean shouldBeEnabled) {
+        for (SudokuBox box : grid.values()) {
+            box.changeTextFieldsState(shouldBeEnabled);
+        }
+    }
 
 }

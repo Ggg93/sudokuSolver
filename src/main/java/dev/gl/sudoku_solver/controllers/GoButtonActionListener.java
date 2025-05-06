@@ -1,6 +1,7 @@
 package dev.gl.sudoku_solver.controllers;
 
 import dev.gl.sudoku_solver.gui.MainWindow;
+import dev.gl.sudoku_solver.gui.MainWindowState;
 import dev.gl.sudoku_solver.gui.SudokuBox;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import dev.gl.sudoku_solver.models.Solver;
@@ -58,6 +59,7 @@ public class GoButtonActionListener implements ActionListener {
         }
 
         // if everything is fine, send matrix to dataKeeper to solver
+        parent.updateState(MainWindowState.NEED_RESTART);
         boolean isSolved = Solver.solve(dataKeeper);
         dataKeeper.printMatrix();
         System.out.println("solved: " + isSolved);
@@ -69,7 +71,6 @@ public class GoButtonActionListener implements ActionListener {
                     + "Couldn't solve it! :(",
                     "Sudoku Solver",
                     JOptionPane.WARNING_MESSAGE);
-            parent.getDataKeeper().clearMatrix();
             return;
         }
         

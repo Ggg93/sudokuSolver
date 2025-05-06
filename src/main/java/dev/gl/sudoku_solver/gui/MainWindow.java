@@ -15,9 +15,11 @@ import javax.swing.ImageIcon;
 public class MainWindow extends javax.swing.JFrame {
     
     private DataKeeper dataKeeper;
+    private MainWindowState state;
 
     public MainWindow() {
         dataKeeper = new DataKeeper(this);
+        state = MainWindowState.READY;
         
         initComponents();
         initMainGrid();
@@ -122,6 +124,24 @@ public class MainWindow extends javax.swing.JFrame {
 
     public DataKeeper getDataKeeper() {
         return dataKeeper;
+    }
+    
+    public void updateState(MainWindowState newState) {
+        if (state == newState) {
+            return;
+        }
+        
+        state = newState;
+        
+        if (newState == MainWindowState.NEED_RESTART) {
+            dataKeeper.changeBoxesState(false);
+            goButton.setEnabled(false);
+        }
+        
+        if (newState == MainWindowState.READY) {
+            dataKeeper.changeBoxesState(true);
+            goButton.setEnabled(true);
+        }
     }
     
 }

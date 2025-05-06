@@ -433,5 +433,19 @@ public class SudokuBox extends javax.swing.JPanel {
                 break;
         }
     }
+    
+    public void changeTextFieldsState(boolean shouldBeEnabled) {
+        r1c1.setEditable(shouldBeEnabled);
+        r1c2.setEditable(shouldBeEnabled);
+        r1c3.setEditable(shouldBeEnabled);
+        
+        r2c1.setEditable(shouldBeEnabled);
+        r2c2.setEditable(shouldBeEnabled);
+        r2c3.setEditable(shouldBeEnabled);
+        
+        r3c1.setEditable(shouldBeEnabled);
+        r3c2.setEditable(shouldBeEnabled);
+        r3c3.setEditable(shouldBeEnabled);
+    }
 
 }

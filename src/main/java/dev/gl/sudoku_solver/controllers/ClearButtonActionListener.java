@@ -1,6 +1,7 @@
 package dev.gl.sudoku_solver.controllers;
 
 import dev.gl.sudoku_solver.gui.MainWindow;
+import dev.gl.sudoku_solver.gui.MainWindowState;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,6 +20,7 @@ public class ClearButtonActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         parent.getDataKeeper().clearMatrix();
+        parent.updateState(MainWindowState.READY);
     }
 
 }
