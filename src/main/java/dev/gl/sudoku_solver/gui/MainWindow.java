@@ -5,6 +5,7 @@ import dev.gl.sudoku_solver.controllers.ArtoInkalaAction;
 import dev.gl.sudoku_solver.controllers.ClearAction;
 import dev.gl.sudoku_solver.controllers.ExitAction;
 import dev.gl.sudoku_solver.controllers.GoAction;
+import dev.gl.sudoku_solver.controllers.SettingsDialogActionListener;
 import dev.gl.sudoku_solver.models.BoxPosition;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import java.awt.GridLayout;
@@ -208,8 +209,9 @@ public class MainWindow extends javax.swing.JFrame {
     }
 
     private void initMenuItems() {
-        exitMenuItem.addActionListener(exitAction);
         aboutMenuItem.addActionListener(new AboutDialogActionListener(this));
+        settingsMenuItem.addActionListener(new SettingsDialogActionListener(this));
+        exitMenuItem.addActionListener(exitAction);
     }
 
     private void initControllers() {

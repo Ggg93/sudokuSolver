@@ -8,10 +8,10 @@ import javax.swing.JDialog;
  *
  * @author gl
  */
-public class OkDialogAction extends AbstractAction {
+public class OkDisposingAction extends AbstractAction {
     private JDialog parent;
 
-    public OkDialogAction(JDialog parent) {
+    public OkDisposingAction(JDialog parent) {
         this.parent = parent;
     }
     

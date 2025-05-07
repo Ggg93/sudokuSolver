@@ -3,6 +3,7 @@ package dev.gl.sudoku_solver.controllers;
 import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.gui.MainWindowState;
 import dev.gl.sudoku_solver.gui.SudokuBox;
+import dev.gl.sudoku_solver.models.Configuration;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import dev.gl.sudoku_solver.models.Solver;
 import dev.gl.sudoku_solver.models.Verifier;
@@ -30,7 +31,7 @@ public class GoAction extends AbstractAction {
         if (parent.getWindowState() == MainWindowState.NEED_RESTART) {
             return;
         }
-        
+
         dataKeeper.updateMatrix();
         dataKeeper.printMatrix();
 
@@ -65,11 +66,14 @@ public class GoAction extends AbstractAction {
 
         // if everything is fine, send matrix to dataKeeper to solver
         parent.updateWindowState(MainWindowState.NEED_RESTART);
+
+        // calculating
         Long startTimeStamp = System.nanoTime();
         boolean isSolved = Solver.solve(dataKeeper);
         Long finalTimeStamp = System.nanoTime();
+
+        // show results
         dataKeeper.printMatrix();
-        System.out.println("solved: " + isSolved);
 
         if (!isSolved) {
             JOptionPane.showMessageDialog(parent,
@@ -84,15 +88,15 @@ public class GoAction extends AbstractAction {
         dataKeeper.showSolvedSudoku();
         dataKeeper.changeColorForAllCells(SudokuBox.SUCCESS_GREEN_BACKGROUND);
 
-        JOptionPane.showMessageDialog(parent,
-                "Successfully solved!"
-                + System.lineSeparator()
-                + "Initial clues number: " + initialCluesNumber
-                + System.lineSeparator()
-                + "Solving time [ms]: " + ((finalTimeStamp - startTimeStamp) / 1000000),
-                "Sudoku Solver",
-                JOptionPane.INFORMATION_MESSAGE);
-
+        if (Configuration.showStatsAfterEachRun) {
+            JOptionPane.showMessageDialog(parent,
+                    "Successfully solved!"
+                    + System.lineSeparator()
+                    + "Initial clues number: " + initialCluesNumber
+                    + System.lineSeparator()
+                    + "Solving time [ms]: " + ((finalTimeStamp - startTimeStamp) / 1000000),
+                    "Sudoku Solver",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }
-
 }
