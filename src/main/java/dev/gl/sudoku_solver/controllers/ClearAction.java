@@ -3,24 +3,24 @@ package dev.gl.sudoku_solver.controllers;
 import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.gui.MainWindowState;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
 
 /**
  *
  * @author gl
  */
-public class ClearButtonActionListener implements ActionListener {
+public class ClearAction extends AbstractAction {
 
     private MainWindow parent;
 
-    public ClearButtonActionListener(MainWindow parent) {
+    public ClearAction(MainWindow parent) {
         this.parent = parent;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         parent.getDataKeeper().clearMatrix();
-        parent.updateState(MainWindowState.READY);
+        parent.updateWindowState(MainWindowState.READY);
     }
 
 }

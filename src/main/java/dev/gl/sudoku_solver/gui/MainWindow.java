@@ -2,14 +2,15 @@ package dev.gl.sudoku_solver.gui;
 
 import dev.gl.sudoku_solver.controllers.AboutDialogActionListener;
 import dev.gl.sudoku_solver.controllers.ArtoInkalaAction;
-import dev.gl.sudoku_solver.controllers.ClearButtonActionListener;
-import dev.gl.sudoku_solver.controllers.ExitButtonActionListener;
-import dev.gl.sudoku_solver.controllers.GoButtonActionListener;
+import dev.gl.sudoku_solver.controllers.ClearAction;
+import dev.gl.sudoku_solver.controllers.ExitAction;
+import dev.gl.sudoku_solver.controllers.GoAction;
 import dev.gl.sudoku_solver.models.BoxPosition;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import java.awt.GridLayout;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
@@ -24,12 +25,17 @@ public class MainWindow extends javax.swing.JFrame {
     
     private DataKeeper dataKeeper;
     private MainWindowState state;
+    private AbstractAction exitAction;
+    private AbstractAction goAction;
+    private AbstractAction clearAction;
+    private AbstractAction artoInkalaAction;
 
     public MainWindow() {
         dataKeeper = new DataKeeper(this);
         state = MainWindowState.READY;
         
         initComponents();
+        initControllers();
         initMainGrid();
         setupFrame();
         initListeners();
@@ -130,9 +136,9 @@ public class MainWindow extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initListeners() {
-        exitButton.addActionListener(new ExitButtonActionListener(this));
-        goButton.addActionListener(new GoButtonActionListener(this));
-        clearButton.addActionListener(new ClearButtonActionListener(this));
+        exitButton.addActionListener(exitAction);
+        goButton.addActionListener(goAction);
+        clearButton.addActionListener(clearAction);
     }
 
     private void setupFrame() {
@@ -164,7 +170,7 @@ public class MainWindow extends javax.swing.JFrame {
         return dataKeeper;
     }
     
-    public void updateState(MainWindowState newState) {
+    public void updateWindowState(MainWindowState newState) {
         if (state == newState) {
             return;
         }
@@ -181,18 +187,36 @@ public class MainWindow extends javax.swing.JFrame {
             goButton.setEnabled(true);
         }
     }
+    
+    public MainWindowState getWindowState() {
+        return state;
+    }
 
     private void createKeyBindings() {
         InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = this.getRootPane().getActionMap();
         
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK), "ArtoInkala");
-        actionMap.put("ArtoInkala", new ArtoInkalaAction(this));
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "exit");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK), "clear");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "go");
+        
+        actionMap.put("ArtoInkala", artoInkalaAction);
+        actionMap.put("exit", exitAction);
+        actionMap.put("clear", clearAction);
+        actionMap.put("go", goAction);
     }
 
     private void initMenuItems() {
-        exitMenuItem.addActionListener(new ExitButtonActionListener(this));
+        exitMenuItem.addActionListener(exitAction);
         aboutMenuItem.addActionListener(new AboutDialogActionListener(this));
+    }
+
+    private void initControllers() {
+        exitAction = new ExitAction(this);
+        goAction = new GoAction(this);
+        clearAction = new ClearAction(this);
+        artoInkalaAction = new ArtoInkalaAction(this);
     }
     
 }

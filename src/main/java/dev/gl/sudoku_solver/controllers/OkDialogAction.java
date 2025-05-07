@@ -1,25 +1,23 @@
 package dev.gl.sudoku_solver.controllers;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JFrame;
+import javax.swing.AbstractAction;
+import javax.swing.JDialog;
 
 /**
  *
  * @author gl
  */
-public class ExitButtonActionListener implements ActionListener {
-    
-    private JFrame parent;
+public class OkDialogAction extends AbstractAction {
+    private JDialog parent;
 
-    public ExitButtonActionListener(JFrame parent) {
+    public OkDialogAction(JDialog parent) {
         this.parent = parent;
     }
     
     @Override
     public void actionPerformed(ActionEvent e) {
         parent.dispose();
-        System.exit(0);
     }
     
 }

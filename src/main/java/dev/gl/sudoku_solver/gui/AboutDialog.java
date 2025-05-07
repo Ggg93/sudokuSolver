@@ -1,6 +1,6 @@
 package dev.gl.sudoku_solver.gui;
 
-import dev.gl.sudoku_solver.controllers.OkButtonInDialogActionListener;
+import dev.gl.sudoku_solver.controllers.OkDialogAction;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.KeyEvent;
@@ -26,7 +26,7 @@ public class AboutDialog extends javax.swing.JDialog {
 
     public AboutDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        okButtonAction = new OkButtonInDialogActionListener(this);
+        okButtonAction = new OkDialogAction(this);
         initComponents();
         this.setLocationRelativeTo(null);
         attachListenerToOkButton();
@@ -210,7 +210,7 @@ public class AboutDialog extends javax.swing.JDialog {
     }
 
     private void attachListenerToOkButton() {
-        okButton.addActionListener(new OkButtonInDialogActionListener(this));
+        okButton.addActionListener(new OkDialogAction(this));
     }
 
     private void bindKeyListenersToOkButton() {

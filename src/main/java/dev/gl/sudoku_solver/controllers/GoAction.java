@@ -8,25 +8,29 @@ import dev.gl.sudoku_solver.models.Solver;
 import dev.gl.sudoku_solver.models.Verifier;
 import dev.gl.sudoku_solver.models.WrongCondition;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author gl
  */
-public class GoButtonActionListener implements ActionListener {
+public class GoAction extends AbstractAction {
 
     private MainWindow parent;
     private DataKeeper dataKeeper;
 
-    public GoButtonActionListener(MainWindow parent) {
+    public GoAction(MainWindow parent) {
         this.parent = parent;
         this.dataKeeper = parent.getDataKeeper();
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (parent.getWindowState() == MainWindowState.NEED_RESTART) {
+            return;
+        }
+        
         dataKeeper.updateMatrix();
         dataKeeper.printMatrix();
 
@@ -60,7 +64,7 @@ public class GoButtonActionListener implements ActionListener {
         }
 
         // if everything is fine, send matrix to dataKeeper to solver
-        parent.updateState(MainWindowState.NEED_RESTART);
+        parent.updateWindowState(MainWindowState.NEED_RESTART);
         Long startTimeStamp = System.nanoTime();
         boolean isSolved = Solver.solve(dataKeeper);
         Long finalTimeStamp = System.nanoTime();
