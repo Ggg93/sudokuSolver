@@ -1,7 +1,7 @@
 package dev.gl.sudoku_solver.models;
 
 /**
- *
+ * Backtracking algorithm: https://leetcode.com/problems/sudoku-solver/solutions/15752/straight-forward-java-solution-using-backtracking
  * @author gl
  */
 public class Solver {
