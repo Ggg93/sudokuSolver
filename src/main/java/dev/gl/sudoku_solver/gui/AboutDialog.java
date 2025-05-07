@@ -43,56 +43,82 @@ public class AboutDialog extends javax.swing.JDialog {
 
         mainPanel = new javax.swing.JPanel();
         upperSubpanel = new javax.swing.JPanel();
+        logoPanel = new javax.swing.JPanel();
         infoPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        programNameLabel = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         versionLabel = new javax.swing.JLabel();
-        logoPanel = new javax.swing.JPanel();
         linksPanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         homeLinkLabel = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         imageLinkLabel = new javax.swing.JLabel();
         bottomPanel = new javax.swing.JPanel();
         okButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("About");
+        setMinimumSize(new java.awt.Dimension(300, 220));
+        setPreferredSize(new java.awt.Dimension(300, 220));
+        setResizable(false);
 
         mainPanel.setLayout(new java.awt.BorderLayout());
 
-        upperSubpanel.setLayout(new java.awt.BorderLayout());
+        upperSubpanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+        upperSubpanel.add(logoPanel);
 
-        infoPanel.setLayout(new java.awt.GridLayout(2, 2));
+        infoPanel.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setText("SudokuSolver");
-        infoPanel.add(jLabel1);
-        infoPanel.add(jLabel2);
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
 
-        jLabel3.setText("Version:");
-        infoPanel.add(jLabel3);
+        programNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        programNameLabel.setText("SudokuSolver");
+        jPanel4.add(programNameLabel);
+
+        infoPanel.add(jPanel4, java.awt.BorderLayout.CENTER);
+
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel3.setText("Version: ");
+        jPanel3.add(jLabel3);
 
         versionLabel.setText("jLabel4");
-        infoPanel.add(versionLabel);
+        jPanel3.add(versionLabel);
 
-        upperSubpanel.add(infoPanel, java.awt.BorderLayout.CENTER);
-        upperSubpanel.add(logoPanel, java.awt.BorderLayout.WEST);
+        infoPanel.add(jPanel3, java.awt.BorderLayout.SOUTH);
+
+        upperSubpanel.add(infoPanel);
 
         mainPanel.add(upperSubpanel, java.awt.BorderLayout.CENTER);
 
-        linksPanel.setLayout(new java.awt.GridLayout(2, 2));
+        linksPanel.setLayout(new java.awt.GridLayout(2, 1));
+
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel4.setText("Home:");
-        linksPanel.add(jLabel4);
+        jPanel1.add(jLabel4);
 
         homeLinkLabel.setText("jLabel5");
-        linksPanel.add(homeLinkLabel);
+        homeLinkLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jPanel1.add(homeLinkLabel);
+
+        linksPanel.add(jPanel1);
+
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         jLabel6.setText("Image source:");
-        linksPanel.add(jLabel6);
+        jPanel2.add(jLabel6);
 
         imageLinkLabel.setText("jLabel7");
-        linksPanel.add(imageLinkLabel);
+        imageLinkLabel.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jPanel2.add(imageLinkLabel);
+
+        linksPanel.add(jPanel2);
 
         mainPanel.add(linksPanel, java.awt.BorderLayout.SOUTH);
 
@@ -111,15 +137,18 @@ public class AboutDialog extends javax.swing.JDialog {
     private javax.swing.JLabel homeLinkLabel;
     private javax.swing.JLabel imageLinkLabel;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel linksPanel;
     private javax.swing.JPanel logoPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JButton okButton;
+    private javax.swing.JLabel programNameLabel;
     private javax.swing.JPanel upperSubpanel;
     private javax.swing.JLabel versionLabel;
     // End of variables declaration//GEN-END:variables
