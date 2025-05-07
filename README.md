@@ -2,6 +2,10 @@
 
 The simple GUI sudoku solver that use backtracking algorithm to find a solution.
 
+Main window:<br/>
+<img src="/src/main/resources/images/screenshots/main_window.png" width="324" height="324">
+
+
 ## Versions
 
 - 1.0.0: 07.05.2025. // First stable version
