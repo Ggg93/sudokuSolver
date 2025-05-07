@@ -1,5 +1,6 @@
 package dev.gl.sudoku_solver.gui;
 
+import dev.gl.sudoku_solver.controllers.AboutDialogActionListener;
 import dev.gl.sudoku_solver.controllers.ArtoInkalaAction;
 import dev.gl.sudoku_solver.controllers.ClearButtonActionListener;
 import dev.gl.sudoku_solver.controllers.ExitButtonActionListener;
@@ -33,6 +34,7 @@ public class MainWindow extends javax.swing.JFrame {
         setupFrame();
         initListeners();
         createKeyBindings();
+        initMenuItems();
     }
 
     @SuppressWarnings("unchecked")
@@ -46,6 +48,11 @@ public class MainWindow extends javax.swing.JFrame {
         clearButton = new javax.swing.JButton();
         rightButtonsPanel = new javax.swing.JPanel();
         exitButton = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        aboutMenuItem = new javax.swing.JMenuItem();
+        settingsMenuItem = new javax.swing.JMenuItem();
+        exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sudoku Solver");
@@ -59,7 +66,7 @@ public class MainWindow extends javax.swing.JFrame {
         );
         upperPanelLayout.setVerticalGroup(
             upperPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 267, Short.MAX_VALUE)
+            .addGap(0, 244, Short.MAX_VALUE)
         );
 
         getContentPane().add(upperPanel, java.awt.BorderLayout.CENTER);
@@ -85,17 +92,40 @@ public class MainWindow extends javax.swing.JFrame {
 
         getContentPane().add(bottomPanel, java.awt.BorderLayout.SOUTH);
 
+        jMenu1.setText("Main");
+
+        aboutMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        aboutMenuItem.setText("About");
+        jMenu1.add(aboutMenuItem);
+
+        settingsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        settingsMenuItem.setText("Settings");
+        jMenu1.add(settingsMenuItem);
+
+        exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
+        exitMenuItem.setText("Exit");
+        jMenu1.add(exitMenuItem);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem aboutMenuItem;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton clearButton;
     private javax.swing.JButton exitButton;
+    private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JButton goButton;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel leftButtonsPanel;
     private javax.swing.JPanel rightButtonsPanel;
+    private javax.swing.JMenuItem settingsMenuItem;
     private javax.swing.JPanel upperPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -158,6 +188,11 @@ public class MainWindow extends javax.swing.JFrame {
         
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK), "ArtoInkala");
         actionMap.put("ArtoInkala", new ArtoInkalaAction(this));
+    }
+
+    private void initMenuItems() {
+        exitMenuItem.addActionListener(new ExitButtonActionListener(this));
+        aboutMenuItem.addActionListener(new AboutDialogActionListener(this));
     }
     
 }
