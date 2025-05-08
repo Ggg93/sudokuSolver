@@ -1,4 +1,4 @@
-package dev.gl.sudoku_solver.db;
+package dev.gl.sudoku_solver.db.common;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

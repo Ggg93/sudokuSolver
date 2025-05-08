@@ -1,6 +1,6 @@
 package dev.gl.sudoku_solver.controllers;
 
-import dev.gl.sudoku_solver.db.HyperConnection;
+import dev.gl.sudoku_solver.db.common.HyperConnection;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;

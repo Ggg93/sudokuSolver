@@ -1,6 +1,6 @@
 package dev.gl.sudoku_solver;
 
-import dev.gl.sudoku_solver.db.HyperConnection;
+import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;

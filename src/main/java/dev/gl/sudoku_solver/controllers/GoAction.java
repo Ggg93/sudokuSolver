@@ -1,8 +1,8 @@
 package dev.gl.sudoku_solver.controllers;
 
-import dev.gl.sudoku_solver.db.DbSettings;
-import dev.gl.sudoku_solver.db.DbStats;
-import dev.gl.sudoku_solver.db.HyperConnection;
+import dev.gl.sudoku_solver.db.entities.DbSettings;
+import dev.gl.sudoku_solver.db.entities.DbStats;
+import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.gui.MainWindowState;
 import dev.gl.sudoku_solver.gui.SudokuBox;

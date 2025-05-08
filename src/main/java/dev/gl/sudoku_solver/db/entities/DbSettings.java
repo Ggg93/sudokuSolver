@@ -1,5 +1,6 @@
-package dev.gl.sudoku_solver.db;
+package dev.gl.sudoku_solver.db.entities;
 
+import dev.gl.sudoku_solver.db.common.HyperConnection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
