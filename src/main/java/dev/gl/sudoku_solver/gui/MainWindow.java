@@ -6,6 +6,7 @@ import dev.gl.sudoku_solver.controllers.ClearAction;
 import dev.gl.sudoku_solver.controllers.ExitAction;
 import dev.gl.sudoku_solver.controllers.GoAction;
 import dev.gl.sudoku_solver.controllers.SettingsDialogActionListener;
+import dev.gl.sudoku_solver.controllers.StatisticsDialogActionListener;
 import dev.gl.sudoku_solver.models.BoxPosition;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import java.awt.GridLayout;
@@ -59,6 +60,7 @@ public class MainWindow extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
         settingsMenuItem = new javax.swing.JMenuItem();
+        statisticsMenuItem = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -109,6 +111,10 @@ public class MainWindow extends javax.swing.JFrame {
         settingsMenuItem.setText("Settings");
         jMenu1.add(settingsMenuItem);
 
+        statisticsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        statisticsMenuItem.setText("Statistics");
+        jMenu1.add(statisticsMenuItem);
+
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         exitMenuItem.setText("Exit");
         jMenu1.add(exitMenuItem);
@@ -133,6 +139,7 @@ public class MainWindow extends javax.swing.JFrame {
     private javax.swing.JPanel leftButtonsPanel;
     private javax.swing.JPanel rightButtonsPanel;
     private javax.swing.JMenuItem settingsMenuItem;
+    private javax.swing.JMenuItem statisticsMenuItem;
     private javax.swing.JPanel upperPanel;
     // End of variables declaration//GEN-END:variables
 
@@ -211,6 +218,7 @@ public class MainWindow extends javax.swing.JFrame {
     private void initMenuItems() {
         aboutMenuItem.addActionListener(new AboutDialogActionListener(this));
         settingsMenuItem.addActionListener(new SettingsDialogActionListener(this));
+        statisticsMenuItem.addActionListener(new StatisticsDialogActionListener(this));
         exitMenuItem.addActionListener(exitAction);
     }
 
