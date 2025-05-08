@@ -8,6 +8,7 @@ Main window:<br/>
 
 ## Versions
 
+- 1.1.0: 09.05.2025. // Statistics added (stored in permanent memory by HSQLDB)
 - 1.0.0: 07.05.2025. // First stable version
 
 ## Known issues
@@ -16,8 +17,8 @@ Main window:<br/>
 
 ## Development plan
 
-- add tests
-- add statistics stored in permament memory
+- [ ] add tests
+- [x] add statistics stored in permament memory
 
 ## Credits
 
