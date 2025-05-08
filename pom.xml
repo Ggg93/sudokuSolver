@@ -20,4 +20,11 @@
             </resource>
         </resources> 
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.7.4</version>
+        </dependency>
+    </dependencies>
 </project>

@@ -1,5 +1,6 @@
 package dev.gl.sudoku_solver.controllers;
 
+import dev.gl.sudoku_solver.db.HyperConnection;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JFrame;
@@ -18,6 +19,8 @@ public class ExitAction extends AbstractAction {
     
     @Override
     public void actionPerformed(ActionEvent e) {
+        
+        HyperConnection.getInstance().closeConnection();
         parent.dispose();
         System.exit(0);
     }
