@@ -1,6 +1,5 @@
 package dev.gl.sudoku_solver.controllers;
 
-import dev.gl.sudoku_solver.db.entities.DbSettings;
 import dev.gl.sudoku_solver.db.entities.DbStats;
 import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
@@ -76,17 +75,6 @@ public class GoAction extends AbstractAction {
         Long finalTimeStamp = System.nanoTime();
         Integer runtime = (int)((finalTimeStamp - startTimeStamp) / 1000000);
         
-        HyperConnection con = HyperConnection.getInstance();
-        DbStats entry = DbStats.getStats(con);
-        System.out.println(entry.toString());
-        entry.setLaunches(entry.getLaunches() + 1);
-        entry.setRuntime(entry.getRuntime() + runtime);
-        int affectedRows = DbStats.updateRow(con, entry);
-        System.out.println("affectedRows: " + affectedRows);
-
-        // show results
-        dataKeeper.printMatrix();
-
         if (!isSolved) {
             JOptionPane.showMessageDialog(parent,
                     "Sorry!"
@@ -96,7 +84,11 @@ public class GoAction extends AbstractAction {
                     JOptionPane.WARNING_MESSAGE);
             return;
         }
+        
+        updateStatisticsInDb(runtime, isSolved);
 
+        // show results
+        dataKeeper.printMatrix();
         dataKeeper.showSolvedSudoku();
         dataKeeper.changeColorForAllCells(SudokuBox.SUCCESS_GREEN_BACKGROUND);
 
@@ -110,5 +102,18 @@ public class GoAction extends AbstractAction {
                     "Sudoku Solver",
                     JOptionPane.INFORMATION_MESSAGE);
         }
+    }
+    
+    private void updateStatisticsInDb(Integer runtime, Boolean isSolved) {
+        HyperConnection con = HyperConnection.getInstance();
+        DbStats entry = DbStats.getStats(con);
+        System.out.println(entry.toString());
+        entry.setLaunches(entry.getLaunches() + 1);
+        entry.setRuntime(entry.getRuntime() + runtime);
+        if (!isSolved) {
+            entry.setFailures(entry.getFailures() + 1);
+        }
+        int affectedRows = DbStats.updateRow(con, entry);
+        System.out.println("affectedRows: " + affectedRows);
     }
 }
