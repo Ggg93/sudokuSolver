@@ -1,5 +1,8 @@
 package dev.gl.sudoku_solver.controllers;
 
+import dev.gl.sudoku_solver.db.DbSettings;
+import dev.gl.sudoku_solver.db.DbStats;
+import dev.gl.sudoku_solver.db.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.gui.MainWindowState;
 import dev.gl.sudoku_solver.gui.SudokuBox;
@@ -71,6 +74,15 @@ public class GoAction extends AbstractAction {
         Long startTimeStamp = System.nanoTime();
         boolean isSolved = Solver.solve(dataKeeper);
         Long finalTimeStamp = System.nanoTime();
+        Integer runtime = (int)((finalTimeStamp - startTimeStamp) / 1000000);
+        
+        HyperConnection con = HyperConnection.getInstance();
+        DbStats entry = DbStats.getStats(con);
+        System.out.println(entry.toString());
+        entry.setLaunches(entry.getLaunches() + 1);
+        entry.setRuntime(entry.getRuntime() + runtime);
+        int affectedRows = DbStats.updateRow(con, entry);
+        System.out.println("affectedRows: " + affectedRows);
 
         // show results
         dataKeeper.printMatrix();
@@ -94,7 +106,7 @@ public class GoAction extends AbstractAction {
                     + System.lineSeparator()
                     + "Initial clues number: " + initialCluesNumber
                     + System.lineSeparator()
-                    + "Solving time [ms]: " + ((finalTimeStamp - startTimeStamp) / 1000000),
+                    + "Solving time [ms]: " + runtime,
                     "Sudoku Solver",
                     JOptionPane.INFORMATION_MESSAGE);
         }
