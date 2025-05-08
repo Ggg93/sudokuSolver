@@ -2,6 +2,7 @@ package dev.gl.sudoku_solver;
 
 import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
+import dev.gl.sudoku_solver.models.Configuration;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -19,8 +20,12 @@ public class EntryPoint {
             e.printStackTrace(System.err);
         }
         
+        // initialize connection to database
         HyperConnection con = HyperConnection.getInstance();
         con.setConnection();
+        
+        // get app settings from db
+        Configuration.loadConfigurationFromDB(con);
         
         SwingUtilities.invokeLater(() -> {
             MainWindow mainWindow = new MainWindow();

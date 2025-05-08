@@ -3,6 +3,8 @@ package dev.gl.sudoku_solver.db.entities;
 import dev.gl.sudoku_solver.db.common.HyperConnection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -44,6 +46,57 @@ public class DbSettings {
         return valString;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setParameter(String parameter) {
+        this.parameter = parameter;
+    }
+
+    public void setValBool(Boolean valBool) {
+        this.valBool = valBool;
+    }
+
+    public void setValInt(Integer valInt) {
+        this.valInt = valInt;
+    }
+
+    public void setValString(String valString) {
+        this.valString = valString;
+    }
+    
+    
+    
+    public static Map<String, DbSettings> getAllSettings(HyperConnection con) {
+        if (con == null) {
+            return null;
+        }
+        
+        Map<String, DbSettings> settings = new HashMap<>();
+        try (Statement stmt = con.getCon().createStatement()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("SELECT * FROM SETTINGS ");
+            ResultSet rs = stmt.executeQuery(sb.toString());
+            while (rs.next()) {
+                DbSettings entry = new DbSettings(rs.getInt(1),
+                    rs.getString(2),
+                    rs.getBoolean(3),
+                    rs.getInt(4),
+                    rs.getString(5));
+                
+                settings.put(entry.getParameter(), entry);
+            }
+            
+            System.out.println("read settings from db: " + settings.size());
+            
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+        
+        return settings;
+    }
+
     public static DbSettings getSettingByParameter(HyperConnection con, String parameter) {
 
         if (con == null) {
@@ -54,8 +107,8 @@ public class DbSettings {
 
         try (Statement stmt = con.getCon().createStatement()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("SELECT * FROM STATS ");
-            sb.append("WHERE parameter = ").append(parameter);
+            sb.append("SELECT * FROM SETTINGS ");
+            sb.append("WHERE parameter = '").append(parameter).append("'");
             ResultSet rs = stmt.executeQuery(sb.toString());
             rs.next();
             entry = new DbSettings(rs.getInt(1),
@@ -69,11 +122,11 @@ public class DbSettings {
         return entry;
     }
 
-    public int updateRow(HyperConnection con, DbSettings entry) {
+    public static int updateRow(HyperConnection con, DbSettings entry) {
         int affectedRows = 0;
         try (Statement stmt = con.getCon().createStatement()) {
             StringBuilder sb = new StringBuilder();
-            sb.append("UPDATE SETTINGS");
+            sb.append("UPDATE SETTINGS ");
             sb.append("SET VAL_BOOL = ").append(entry.valBool);
             sb.append(", VAL_INT = ").append(entry.valInt);
             sb.append(", VAL_STRING = ").append(entry.valString).append(" ");
