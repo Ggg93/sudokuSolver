@@ -36,7 +36,7 @@ public class HyperConnection {
 
     public void setConnection() {
         try {
-            con = DriverManager.getConnection("jdbc:hsqldb:file:sudoku_db;shutdown=true", "SA", "");
+            con = DriverManager.getConnection("jdbc:hsqldb:file:db/sudoku_db;shutdown=true", "SA", "");
             setInitialParameters();
             logger.log(Level.CONFIG, "con to db established");
             createTablesAtFirstLaunch();
