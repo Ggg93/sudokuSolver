@@ -14,6 +14,11 @@ public class WrongCondition {
         this.row = row;
         this.column = column;
     }
+
+    @Override
+    public String toString() {
+        return "WrongCondition{" + "type=" + type + ", row=" + row + ", column=" + column + '}';
+    }
     
     public WrongLocationType getType() {
         return type;

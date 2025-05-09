@@ -1,9 +1,12 @@
 package dev.gl.sudoku_solver.gui;
 
+import dev.gl.sudoku_solver.EntryPoint;
 import dev.gl.sudoku_solver.controllers.OkDisposingAction;
 import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.db.entities.DbStats;
+import dev.gl.sudoku_solver.logging.Logging;
 import java.awt.event.KeyEvent;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -15,7 +18,8 @@ import javax.swing.KeyStroke;
  * @author gl
  */
 public class StatisticsDialog extends javax.swing.JDialog {
-    
+
+    private static final Logger LOGGER = Logging.getLocalLogger(StatisticsDialog.class);
     private AbstractAction okButtonAction;
 
     public StatisticsDialog(java.awt.Frame parent, boolean modal) {
@@ -26,6 +30,7 @@ public class StatisticsDialog extends javax.swing.JDialog {
         attachListenerToOkButton();
         bindKeyListenersToOkButton();
         loadStatisticsFromDB();
+        LOGGER.config("StatisticsDialog opened");
     }
 
     @SuppressWarnings("unchecked")
@@ -122,11 +127,11 @@ public class StatisticsDialog extends javax.swing.JDialog {
     private void bindKeyListenersToOkButton() {
         InputMap inputMap = this.getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
         ActionMap actionMap = this.getRootPane().getActionMap();
-        
+
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "ok");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "ok");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "ok");
-        
+
         actionMap.put("ok", okButtonAction);
     }
 
@@ -136,5 +141,10 @@ public class StatisticsDialog extends javax.swing.JDialog {
         launchesTextField.setText(stats.getLaunches().toString());
         runtimeTextField.setText(stats.getRuntime().toString());
         failuresTextField.setText(stats.getFailures().toString());
+
+        LOGGER.info("current stats:" + System.lineSeparator()
+                + "launches = " + stats.getLaunches() + System.lineSeparator()
+                + "runtime = " + stats.getRuntime() + System.lineSeparator()
+                + "failures = " + stats.getFailures());
     }
 }

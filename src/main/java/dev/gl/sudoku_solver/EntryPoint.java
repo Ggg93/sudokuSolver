@@ -2,7 +2,11 @@ package dev.gl.sudoku_solver;
 
 import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
+import dev.gl.sudoku_solver.logging.Logging;
 import dev.gl.sudoku_solver.models.Configuration;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -12,12 +16,19 @@ import javax.swing.UIManager;
  */
 public class EntryPoint {
     
+    private static final Logger LOGGER = Logging.getLocalLogger(EntryPoint.class);
+    
     public static void main(String[] args) {
+        Properties props = new Properties();
+        
         try {
+            props.load(EntryPoint.class.getClassLoader().getResourceAsStream(".properties"));
+            String version = props.getProperty("version", "undefined");
+            LOGGER.info("App version: " + version);
+            
             UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception e) {
-            System.out.println(e.getClass() + ": " + e.getLocalizedMessage());
-            e.printStackTrace(System.err);
+            LOGGER.log(Level.SEVERE, null, e);
         }
         
         // initialize connection to database
@@ -31,5 +42,7 @@ public class EntryPoint {
             MainWindow mainWindow = new MainWindow();
             mainWindow.setVisible(true);
         });
+        
+        LOGGER.info("ended successfully");
     }
 }

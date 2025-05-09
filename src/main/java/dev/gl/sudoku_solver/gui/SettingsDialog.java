@@ -1,8 +1,10 @@
 package dev.gl.sudoku_solver.gui;
 
 import dev.gl.sudoku_solver.controllers.SaveConfigurationAction;
+import dev.gl.sudoku_solver.logging.Logging;
 import dev.gl.sudoku_solver.models.Configuration;
 import java.awt.event.KeyEvent;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
@@ -16,6 +18,7 @@ import javax.swing.KeyStroke;
  */
 public class SettingsDialog extends javax.swing.JDialog {
 
+    private static final Logger LOGGER = Logging.getLocalLogger(SettingsDialog.class);
     private AbstractAction okButtonAction;
 
     public SettingsDialog(java.awt.Frame parent, boolean modal) {
@@ -26,6 +29,7 @@ public class SettingsDialog extends javax.swing.JDialog {
         loadConfiguration();
         attachListenerToOkButton();
         bindKeyListenersToOkButton();
+        LOGGER.config("SettingsDialog opened");
     }
 
     @SuppressWarnings("unchecked")
@@ -94,6 +98,7 @@ public class SettingsDialog extends javax.swing.JDialog {
 
     private void loadConfiguration() {
         showResultsCheckBox.setSelected(Configuration.showStatsAfterEachRun);
+        LOGGER.info("showStatsAfterEachRun: " + Configuration.showStatsAfterEachRun);
     }
     
 }

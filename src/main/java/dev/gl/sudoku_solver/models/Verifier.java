@@ -12,7 +12,6 @@ public class Verifier {
 
     /**
      * Check that input matrix has enough clues to find an answer
-     * @param matrix
      * @return 
      */
     public static boolean checkRequiredMinimumClues(int cluesNumber) {

@@ -5,12 +5,14 @@ import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.gui.MainWindowState;
 import dev.gl.sudoku_solver.gui.SudokuBox;
+import dev.gl.sudoku_solver.logging.Logging;
 import dev.gl.sudoku_solver.models.Configuration;
 import dev.gl.sudoku_solver.models.DataKeeper;
 import dev.gl.sudoku_solver.models.Solver;
 import dev.gl.sudoku_solver.models.Verifier;
 import dev.gl.sudoku_solver.models.WrongCondition;
 import java.awt.event.ActionEvent;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
@@ -20,6 +22,7 @@ import javax.swing.JOptionPane;
  */
 public class GoAction extends AbstractAction {
 
+    private static final Logger LOGGER = Logging.getLocalLogger(GoAction.class);
     private MainWindow parent;
     private DataKeeper dataKeeper;
 
@@ -35,7 +38,7 @@ public class GoAction extends AbstractAction {
         }
 
         dataKeeper.updateMatrix();
-        dataKeeper.printMatrix();
+//        dataKeeper.printMatrix();
 
         char[][] matrix = dataKeeper.getMatrix();
 
@@ -43,6 +46,8 @@ public class GoAction extends AbstractAction {
         int initialCluesNumber = Verifier.getInitialCluesNumber(matrix);
         boolean isCluesNumberEnough = Verifier.checkRequiredMinimumClues(initialCluesNumber);
         if (!isCluesNumberEnough) {
+            LOGGER.info("initial clues number (" + initialCluesNumber + ") is not enough");
+            
             JOptionPane.showMessageDialog(parent,
                     "There is not enough clues. " + System.lineSeparator()
                     + "Minimum required number is " + Verifier.CLUES_REQUIRED_MINIMUM,
@@ -54,6 +59,8 @@ public class GoAction extends AbstractAction {
         // second check: if input matrix is correct
         WrongCondition wrongCondition = Verifier.checkCorrectness(matrix, dataKeeper);
         if (wrongCondition != null) {
+            LOGGER.info(wrongCondition.toString());
+            
             JOptionPane.showMessageDialog(parent,
                     "The input matrix is incorrect. " + System.lineSeparator()
                     + "Conflicting value: "
@@ -76,6 +83,7 @@ public class GoAction extends AbstractAction {
         Integer runtime = (int)((finalTimeStamp - startTimeStamp) / 1000000);
         
         if (!isSolved) {
+            LOGGER.info("Could not solve it!");
             JOptionPane.showMessageDialog(parent,
                     "Sorry!"
                     + System.lineSeparator()
@@ -93,6 +101,8 @@ public class GoAction extends AbstractAction {
         dataKeeper.changeColorForAllCells(SudokuBox.SUCCESS_GREEN_BACKGROUND);
 
         if (Configuration.showStatsAfterEachRun) {
+            LOGGER.info("Successfully solved!");
+            
             JOptionPane.showMessageDialog(parent,
                     "Successfully solved!"
                     + System.lineSeparator()
@@ -106,14 +116,14 @@ public class GoAction extends AbstractAction {
     
     private void updateStatisticsInDb(Integer runtime, Boolean isSolved) {
         HyperConnection con = HyperConnection.getInstance();
+        
         DbStats entry = DbStats.getStats(con);
-        System.out.println(entry.toString());
         entry.setLaunches(entry.getLaunches() + 1);
         entry.setRuntime(entry.getRuntime() + runtime);
         if (!isSolved) {
             entry.setFailures(entry.getFailures() + 1);
         }
         int affectedRows = DbStats.updateRow(con, entry);
-        System.out.println("affectedRows: " + affectedRows);
+        LOGGER.info("Statistics updated. AffectedRows: " + affectedRows);
     }
 }

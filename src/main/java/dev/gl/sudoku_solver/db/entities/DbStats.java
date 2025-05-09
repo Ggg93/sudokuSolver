@@ -1,14 +1,19 @@
 package dev.gl.sudoku_solver.db.entities;
 
 import dev.gl.sudoku_solver.db.common.HyperConnection;
+import dev.gl.sudoku_solver.logging.Logging;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author gl
  */
 public class DbStats {
+    
+    private static final Logger LOGGER = Logging.getLocalLogger(DbStats.class);
     private Integer launches;
     private Integer runtime;
     private Integer failures;
@@ -65,7 +70,7 @@ public class DbStats {
                     rs.getInt(2),
                     rs.getInt(3));
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            LOGGER.log(Level.SEVERE, null, e);
         }
         return entry;
     }
@@ -80,7 +85,7 @@ public class DbStats {
             sb.append(", FAILURES = ").append(entry.failures);
             affectedRows = stmt.executeUpdate(sb.toString());
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            LOGGER.log(Level.SEVERE, null, e);
         }
 
         return affectedRows;

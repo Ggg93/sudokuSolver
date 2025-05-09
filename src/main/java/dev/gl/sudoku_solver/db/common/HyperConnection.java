@@ -1,5 +1,6 @@
 package dev.gl.sudoku_solver.db.common;
 
+import dev.gl.sudoku_solver.logging.Logging;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
 public class HyperConnection {
 
     private static HyperConnection instance;
+    private static Logger logger = Logging.getLocalLogger(HyperConnection.class);
     private Connection con;
 
     /*
@@ -26,6 +28,7 @@ public class HyperConnection {
     public static HyperConnection getInstance() {
         if (instance == null) {
             instance = new HyperConnection();
+            logger.log(Level.CONFIG, "HyperConnection instance created");
         }
         return instance;
 
@@ -35,9 +38,10 @@ public class HyperConnection {
         try {
             con = DriverManager.getConnection("jdbc:hsqldb:file:sudoku_db;shutdown=true", "SA", "");
             setInitialParameters();
+            logger.log(Level.CONFIG, "con to db established");
             createTablesAtFirstLaunch();
         } catch (SQLException ex) {
-            Logger.getLogger(HyperConnection.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -50,9 +54,10 @@ public class HyperConnection {
             if (!con.isClosed()) {
                 con.rollback();
                 con.close();
+                logger.log(Level.CONFIG, "con to db closed");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(HyperConnection.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -61,7 +66,7 @@ public class HyperConnection {
             stmt.executeUpdate("SET DATABASE DEFAULT TABLE TYPE MEMORY;");
             stmt.close();
         } catch (SQLException ex) {
-            Logger.getLogger(HyperConnection.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,11 +92,11 @@ public class HyperConnection {
             if (!resultSet.isBeforeFirst()) {
                 // if 'stats' is empty, insert a new row there
                 stmt.executeUpdate("INSERT INTO stats VALUES (0, 0, 0)");
-                System.out.println("Insert first row in the \"stats\" table");
+                logger.config("Insert first row in the \"stats\" table");
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(HyperConnection.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -114,11 +119,11 @@ public class HyperConnection {
             if (!resultSet.isBeforeFirst()) {
                 // if 'settings' is empty, insert a new row there
                 stmt.executeUpdate("INSERT INTO settings VALUES (0, 'show_results_each_time', true, null, null)");
-                System.out.println("Insert first row in the \"settings\" table");
+                logger.config("Insert first row in the \"settings\" table");
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(HyperConnection.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 

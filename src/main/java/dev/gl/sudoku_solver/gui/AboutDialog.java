@@ -1,6 +1,7 @@
 package dev.gl.sudoku_solver.gui;
 
 import dev.gl.sudoku_solver.controllers.OkDisposingAction;
+import dev.gl.sudoku_solver.logging.Logging;
 import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.KeyEvent;
@@ -8,6 +9,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
@@ -22,6 +25,7 @@ import javax.swing.KeyStroke;
  */
 public class AboutDialog extends javax.swing.JDialog {
     
+    private static final Logger LOGGER = Logging.getLocalLogger(AboutDialog.class);
     private AbstractAction okButtonAction;
 
     public AboutDialog(java.awt.Frame parent, boolean modal) {
@@ -35,6 +39,7 @@ public class AboutDialog extends javax.swing.JDialog {
         getVersion();
         setHomeLink();
         setImageSourceLink();
+        LOGGER.config("AboutDialog opened");
     }
 
     @SuppressWarnings("unchecked")
@@ -165,8 +170,7 @@ public class AboutDialog extends javax.swing.JDialog {
             props.load(this.getClass().getClassLoader().getResourceAsStream(".properties"));
             versionLabel.setText(props.getProperty("version", "undefined"));
         } catch (Exception e) {
-            System.out.println(e.getClass() + ": " + e.getLocalizedMessage());
-            e.printStackTrace(System.err);
+            LOGGER.log(Level.SEVERE, null, e);
         }
     }
 
@@ -180,7 +184,7 @@ public class AboutDialog extends javax.swing.JDialog {
                 try {
                     Desktop.getDesktop().browse(new URI(homeLink));
                 } catch (Exception urlException) {
-                    urlException.printStackTrace(System.err);
+                    LOGGER.log(Level.SEVERE, null, urlException);
                 }
             }
         });
@@ -203,7 +207,7 @@ public class AboutDialog extends javax.swing.JDialog {
                 try {
                     Desktop.getDesktop().browse(new URI(sudokuImageLink));
                 } catch (Exception urlException) {
-                    urlException.printStackTrace(System.err);
+                    LOGGER.log(Level.SEVERE, null, urlException);
                 }
             }
         });

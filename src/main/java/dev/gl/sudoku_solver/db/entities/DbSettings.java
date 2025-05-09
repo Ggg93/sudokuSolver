@@ -1,10 +1,13 @@
 package dev.gl.sudoku_solver.db.entities;
 
 import dev.gl.sudoku_solver.db.common.HyperConnection;
+import dev.gl.sudoku_solver.logging.Logging;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -12,6 +15,7 @@ import java.util.Map;
  */
 public class DbSettings {
 
+    private static final Logger LOGGER = Logging.getLocalLogger(DbSettings.class);
     private Integer id;
     private String parameter;
     private Boolean valBool;
@@ -66,8 +70,6 @@ public class DbSettings {
         this.valString = valString;
     }
     
-    
-    
     public static Map<String, DbSettings> getAllSettings(HyperConnection con) {
         if (con == null) {
             return null;
@@ -88,10 +90,10 @@ public class DbSettings {
                 settings.put(entry.getParameter(), entry);
             }
             
-            System.out.println("read settings from db: " + settings.size());
+            LOGGER.info("read settings from db: " + settings.size());
             
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+           LOGGER.log(Level.SEVERE, null, e);
         }
         
         return settings;
@@ -117,7 +119,7 @@ public class DbSettings {
                     rs.getInt(4),
                     rs.getString(5));
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            LOGGER.log(Level.SEVERE, null, e);
         }
         return entry;
     }
@@ -133,7 +135,7 @@ public class DbSettings {
             sb.append("WHERE ID = ").append(entry.id);
             affectedRows = stmt.executeUpdate(sb.toString());
         } catch (Exception e) {
-            e.printStackTrace(System.err);
+            LOGGER.log(Level.SEVERE, null, e);
         }
 
         return affectedRows;

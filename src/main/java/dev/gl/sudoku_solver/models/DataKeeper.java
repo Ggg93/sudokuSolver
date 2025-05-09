@@ -2,11 +2,13 @@ package dev.gl.sudoku_solver.models;
 
 import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.gui.SudokuBox;
+import dev.gl.sudoku_solver.logging.Logging;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,6 +16,7 @@ import java.util.Set;
  */
 public class DataKeeper {
 
+    private static final Logger LOGGER = Logging.getLocalLogger(DataKeeper.class);
     private MainWindow parent;
     private char[][] matrix = new char[9][9];
     private Map<BoxPosition, SudokuBox> grid = new HashMap<>();
@@ -193,7 +196,7 @@ public class DataKeeper {
                 sb.append(System.lineSeparator());
             }
         }
-        System.out.println(sb.toString());
+        LOGGER.info("Matrix: " + System.lineSeparator() + sb.toString());
     }
 
     public void clearMatrix() {
