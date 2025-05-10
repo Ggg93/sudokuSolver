@@ -9,12 +9,12 @@ import java.util.Map;
  * @author gl
  */
 public class Configuration {
-    public static Boolean showStatsAfterEachRun;
+    public static Boolean showStatsAfterEachRun = true;
     
     public static void loadConfigurationFromDB(HyperConnection con) {
         Map<String, DbSettings> settings = DbSettings.getAllSettings(con);
         
         DbSettings setting = settings.get("show_results_each_time");
-        showStatsAfterEachRun = setting != null ? setting.getValBool() : false;
+        showStatsAfterEachRun = setting != null ? setting.getValBool() : true;
     }
 }

@@ -1,5 +1,8 @@
 package dev.gl.sudoku_solver.gui;
 
+import dev.gl.sudoku_solver.controllers.ArtoInkalaAction;
+import dev.gl.sudoku_solver.db.common.HyperConnection;
+import dev.gl.sudoku_solver.models.Verifier;
 import org.fest.swing.edt.*;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
@@ -10,17 +13,20 @@ import org.fest.swing.core.matcher.DialogMatcher;
 import org.fest.swing.core.matcher.JButtonMatcher;
 import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.fixture.JButtonFixture;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.platform.commons.util.ReflectionUtils;
 
 /**
  *
  * @author gl
  */
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MainWindowTests {
 
     private static MainWindow mw = null;
@@ -36,14 +42,16 @@ public class MainWindowTests {
 //    }
 
     @BeforeAll
-    static void setup() {
+    static void setup() throws Exception{
+        HyperConnection.getInstance().setConnection();
+        
         JFrame jframe = GuiActionRunner.execute(new GuiQuery<JFrame>() {
             @Override
             protected JFrame executeInEDT() throws Throwable {
                 return new MainWindow();
             }
         });
-        
+        mw = (MainWindow) jframe;
         frameFixture = new FrameFixture(jframe);
         frameFixture.show();
     }
@@ -56,7 +64,7 @@ public class MainWindowTests {
      */
     @Disabled("need to use another library than just reflection API")
     @Test
-    void goButtonWithoutEnoughDataShowsJOptionPane() throws Exception {
+    void goButtonWithoutEnoughDataShowsJOptionPaneOld() throws Exception {
         Field field = ReflectionUtils.findFields(mw.getClass(), (f) -> {
             return f.getName().equals("goButton");
         }, ReflectionUtils.HierarchyTraversalMode.TOP_DOWN).get(0);
@@ -73,10 +81,41 @@ public class MainWindowTests {
     }
 
     @Test
-    void goButtonWithoutEnoughDataShowsJOptionPane2() throws Exception {
+    @Order(1)
+    void goButtonWithoutEnoughDataShowsJOptionPane() throws Exception {
         frameFixture.button(JButtonMatcher.withText("Go!")).click();
         DialogFixture dialog = frameFixture.dialog(DialogMatcher.withTitle("Sudoku Verifier"));
         dialog.requireVisible();
+        
+        // dispose the dialog
+        dialog.button(JButtonMatcher.withText("OK")).click();
+    }
+
+    @Test
+    @Order(2)
+    void setArkoInkalaSudoku() {
+        // set Arto Inkala's sudoku on the board
+        ArtoInkalaAction action = new ArtoInkalaAction(mw);
+        action.actionPerformed(null);
+        
+        // update matrix and check that the number of clues is 21
+        mw.getDataKeeper().updateMatrix();
+        int cluesNumber = Verifier.getInitialCluesNumber(mw.getDataKeeper().getMatrix());
+        assertEquals(21, cluesNumber, "Clues number is not 21!");
+    }
+    
+    @Test
+    @Order(3)
+    void findTheSolution() {
+        frameFixture.button(JButtonMatcher.withText("Go!")).click();
+        DialogFixture dialog = frameFixture.dialog(DialogMatcher.withTitle("Sudoku Solver"));
+        dialog.requireVisible();
+        
+        int notEmptyCells = Verifier.getInitialCluesNumber(mw.getDataKeeper().getMatrix());
+        assertEquals(81, notEmptyCells, "notEmptyCells number is not 81!");
+        
+        // dispose the dialog
+        dialog.button(JButtonMatcher.withText("OK")).click();
     }
 
 }
