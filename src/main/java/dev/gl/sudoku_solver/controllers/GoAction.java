@@ -14,6 +14,7 @@ import dev.gl.sudoku_solver.models.WrongCondition;
 import java.awt.event.ActionEvent;
 import java.util.logging.Logger;
 import javax.swing.AbstractAction;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 /**
@@ -53,6 +54,18 @@ public class GoAction extends AbstractAction {
                     + "Minimum required number is " + Verifier.CLUES_REQUIRED_MINIMUM,
                     "Sudoku Verifier",
                     JOptionPane.WARNING_MESSAGE);
+            
+            // for JUnit GUI tests, but it is bad idea
+//            JOptionPane p = new JOptionPane("There is not enough clues. " 
+//                    + System.lineSeparator()
+//                    + "Minimum required number is " 
+//                    + Verifier.CLUES_REQUIRED_MINIMUM, 
+//                    JOptionPane.WARNING_MESSAGE);
+//            JDialog dialog = p.createDialog(parent, "Sudoku Verifier");
+//            dialog.setLocationRelativeTo(parent);
+//            dialog.setVisible(true);
+//            jDialog = dialog;
+            
             return;
         }
 
