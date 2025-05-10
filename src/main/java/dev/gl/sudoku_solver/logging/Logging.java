@@ -2,6 +2,7 @@ package dev.gl.sudoku_solver.logging;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -12,6 +13,7 @@ import java.util.logging.Logger;
 public class Logging {
 
     public static Logger logger;
+    public static String propertiesAddress = ".\\src\\main\\resources\\logging\\logging.properties";
 
     public static Logger getLocalLogger(Class clazz) {
 
@@ -22,24 +24,29 @@ public class Logging {
         return Logger.getLogger(clazz.getCanonicalName());
     }
 
-    private static void initLogger() {
+    /**
+     * init logger
+     *
+     * @return true if load customConfiguration; false otherwise
+     */
+    public static boolean initLogger() {
 
-        boolean customConfiguration = false;
-        File file = new File(".\\src\\main\\resources\\logging\\logging.properties");
-        if (file.exists()) {
-            try {
-                LogManager.getLogManager().readConfiguration(new FileInputStream(file));
-                customConfiguration = true;
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        Exception ex = null;
+        File file = new File(propertiesAddress);
+        try {
+            LogManager.getLogManager().readConfiguration(new FileInputStream(file));
+        } catch (Exception e) {
+            ex = e;
         }
 
         logger = Logger.getLogger(Logging.class.getCanonicalName());
-        logger.config("Logger has been initialized from " 
-                + (customConfiguration ? "custom " : "default ") 
+        logger.config("Logger has been initialized from "
+                + (ex == null ? "custom " : "default ")
                 + "configuration");
+        if (ex != null) {
+            logger.log(Level.SEVERE, null, ex);
+        }
 
+        return ex == null;
     }
-
 }
