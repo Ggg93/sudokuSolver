@@ -34,30 +34,22 @@ public class HyperConnection {
 
     }
 
-    public void setConnection() {
-        try {
-            con = DriverManager.getConnection("jdbc:hsqldb:file:db/sudoku_db;shutdown=true", "SA", "");
-            setInitialParameters();
-            logger.log(Level.CONFIG, "con to db established");
-            createTablesAtFirstLaunch();
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
-        }
+    public void setConnection() throws SQLException {
+        con = DriverManager.getConnection("jdbc:hsqldb:file:db/sudoku_db;shutdown=true", "SA", "");
+        setInitialParameters();
+        logger.log(Level.CONFIG, "con to db established");
+        createTablesAtFirstLaunch();
     }
 
-    public void closeConnection() {
+    public void closeConnection() throws SQLException {
         if (con == null) {
             return;
         }
 
-        try {
-            if (!con.isClosed()) {
-                con.rollback();
-                con.close();
-                logger.log(Level.CONFIG, "con to db closed");
-            }
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, null, ex);
+        if (!con.isClosed()) {
+            con.rollback();
+            con.close();
+            logger.log(Level.CONFIG, "con to db closed");
         }
     }
 
@@ -130,5 +122,5 @@ public class HyperConnection {
     public Connection getCon() {
         return con;
     }
-    
+
 }

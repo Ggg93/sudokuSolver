@@ -4,6 +4,7 @@ import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.gui.MainWindow;
 import dev.gl.sudoku_solver.logging.Logging;
 import dev.gl.sudoku_solver.models.Configuration;
+import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,7 +19,7 @@ public class EntryPoint {
     
     private static final Logger LOGGER = Logging.getLocalLogger(EntryPoint.class);
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException{
         Properties props = new Properties();
         
         try {
