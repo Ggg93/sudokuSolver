@@ -1,4 +1,4 @@
-package dev.gl.sudoku_solver.common;
+package dev.gl.sudoku_solver.db.common;
 
 import static org.junit.jupiter.api.Assertions.*;
 import dev.gl.sudoku_solver.db.common.HyperConnection;

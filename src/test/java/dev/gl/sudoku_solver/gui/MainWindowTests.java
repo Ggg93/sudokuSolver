@@ -4,10 +4,7 @@ import dev.gl.sudoku_solver.controllers.ArtoInkalaAction;
 import dev.gl.sudoku_solver.db.common.HyperConnection;
 import dev.gl.sudoku_solver.models.Verifier;
 import org.fest.swing.edt.*;
-import java.awt.Robot;
-import java.awt.event.InputEvent;
-import java.lang.reflect.Field;
-import javax.swing.JButton;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import org.fest.swing.core.matcher.DialogMatcher;
 import org.fest.swing.core.matcher.JButtonMatcher;
@@ -15,12 +12,10 @@ import org.fest.swing.fixture.DialogFixture;
 import org.fest.swing.fixture.FrameFixture;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.platform.commons.util.ReflectionUtils;
 
 /**
  *
@@ -62,23 +57,23 @@ public class MainWindowTests {
      *
      * @throws Exception
      */
-    @Disabled("need to use another library than just reflection API")
-    @Test
-    void goButtonWithoutEnoughDataShowsJOptionPaneOld() throws Exception {
-        Field field = ReflectionUtils.findFields(mw.getClass(), (f) -> {
-            return f.getName().equals("goButton");
-        }, ReflectionUtils.HierarchyTraversalMode.TOP_DOWN).get(0);
-
-        field.setAccessible(true);
-        JButton goButton = (JButton) field.get(mw);
-
-        Robot r = new Robot();
-        r.mouseMove(goButton.getLocationOnScreen().x + goButton.getWidth() / 2,
-                goButton.getLocationOnScreen().y + goButton.getHeight() / 2);
-        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+//    @Disabled("need to use another library than just reflection API")
+//    @Test
+//    void goButtonWithoutEnoughDataShowsJOptionPaneOld() throws Exception {
+//        Field field = ReflectionUtils.findFields(mw.getClass(), (f) -> {
+//            return f.getName().equals("goButton");
+//        }, ReflectionUtils.HierarchyTraversalMode.TOP_DOWN).get(0);
+//
+//        field.setAccessible(true);
+//        JButton goButton = (JButton) field.get(mw);
+//
+//        Robot r = new Robot();
+//        r.mouseMove(goButton.getLocationOnScreen().x + goButton.getWidth() / 2,
+//                goButton.getLocationOnScreen().y + goButton.getHeight() / 2);
+//        r.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+//        r.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 //        assertNotNull(((GoAction) mw.getGoAction()).getjDialog(), "JDialog is null");
-    }
+//    }
 
     @Test
     @Order(1)
@@ -90,9 +85,42 @@ public class MainWindowTests {
         // dispose the dialog
         dialog.button(JButtonMatcher.withText("OK")).click();
     }
-
+    
     @Test
     @Order(2)
+    void showAboutDialog() throws Exception {
+        frameFixture.pressAndReleaseKeys(KeyEvent.VK_F1);
+        DialogFixture dialog = frameFixture.dialog(DialogMatcher.withTitle("About"));
+        dialog.requireVisible();
+        
+        // dispose the dialog
+        dialog.button(JButtonMatcher.withText("OK")).click();
+    }
+    
+    @Test
+    @Order(3)
+    void showSettingsDialog() throws Exception {
+        frameFixture.pressAndReleaseKeys(KeyEvent.VK_F2);
+        DialogFixture dialog = frameFixture.dialog(DialogMatcher.withTitle("Settings"));
+        dialog.requireVisible();
+        
+        // dispose the dialog
+        dialog.button(JButtonMatcher.withText("OK")).click();
+    }
+    
+    @Test
+    @Order(4)
+    void showStatisticsDialog() throws Exception {
+        frameFixture.pressAndReleaseKeys(KeyEvent.VK_F3);
+        DialogFixture dialog = frameFixture.dialog(DialogMatcher.withTitle("Statistics"));
+        dialog.requireVisible();
+        
+        // dispose the dialog
+        dialog.button(JButtonMatcher.withText("OK")).click();
+    }
+
+    @Test
+    @Order(5)
     void setArkoInkalaSudoku() {
         // set Arto Inkala's sudoku on the board
         ArtoInkalaAction action = new ArtoInkalaAction(mw);
@@ -105,7 +133,7 @@ public class MainWindowTests {
     }
     
     @Test
-    @Order(3)
+    @Order(6)
     void findTheSolution() {
         frameFixture.button(JButtonMatcher.withText("Go!")).click();
         DialogFixture dialog = frameFixture.dialog(DialogMatcher.withTitle("Sudoku Solver"));
@@ -117,5 +145,13 @@ public class MainWindowTests {
         // dispose the dialog
         dialog.button(JButtonMatcher.withText("OK")).click();
     }
-
+    
+    @Test
+    @Order(7)
+    void clearBoardByClearButtonPressed() throws Exception {
+        frameFixture.button(JButtonMatcher.withText("Clear")).click();
+        int cellsWithValues = Verifier.getInitialCluesNumber(mw.getDataKeeper().getMatrix());
+        assertEquals(0, cellsWithValues, "Board is not clear");
+    }
+    
 }
