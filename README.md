@@ -11,6 +11,11 @@ Main window:<br/>
 - 1.1.0: 09.05.2025. // Statistics added (stored in permanent memory by HSQLDB)
 - 1.0.0: 07.05.2025. // First stable version
 
+
+## Credentials
+
+Sudoku image: <html><a href="https://icons8.com/icon/jXzfuurwNZ2X/sudoku">Sudoku</a> icon by <a href="https://icons8.com">Icons8</a></html>
+
 ## Known issues
 
 
